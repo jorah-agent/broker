@@ -1,8 +1,8 @@
 # Общий декоратор для подключения к RabbitMQ
-import os
+import json
 from functools import wraps
 from typing import Any, Callable, ParamSpec, TypeVar
-import json
+
 from aio_pika.abc import AbstractIncomingMessage
 from dotenv import load_dotenv
 from loguru import logger
@@ -14,20 +14,33 @@ load_dotenv()
 P = ParamSpec("P")
 R = TypeVar("R")
 
-# TODO сделать разделение на сервисы и скилы путем НЕ обязательных параметров skill_name и далее
 def rabbitmq_worker(
     *,
     request_queue: str,
     response_queue: str = "",
     attributes: tuple[str, ...] = (),
     optional_attributes: tuple[str, ...] = (),
-    rabbitmq_url: str = os.getenv("RABBITMQ_URL"),
+    rabbitmq_url: str = "guest:guest@localhost:5672",
     skill_name: str = "",
     skill_description: str = "",
     is_skill: bool = True,
-    parameters: dict[str, Any] = {},
+    parameters: dict[str, Any] = dict,
     version: str = "1.0.0",
 ):
+    """
+
+    :param request_queue:
+    :param response_queue:
+    :param attributes:
+    :param optional_attributes:
+    :param rabbitmq_url: guest:guest@localhost:5672
+    :param skill_name:
+    :param skill_description:
+    :param is_skill:
+    :param parameters:
+    :param version:
+    :return:
+    """
     def decorator(func: Callable[..., Any]):
         @wraps(func)
         async def run(**dependencies: Any) -> None:

@@ -1,11 +1,10 @@
-import os
-
-from loguru import logger
 from collections.abc import Awaitable, Callable
 from typing import Any
-from dotenv import load_dotenv
+
 import aio_pika
 from aio_pika.abc import AbstractIncomingMessage
+from dotenv import load_dotenv
+from loguru import logger
 
 load_dotenv()
 
@@ -18,7 +17,7 @@ MessageHandler = Callable[
 class RabbitMQClient:
     def __init__(
         self,
-        url: str = os.getenv("RABBITMQ_URL")
+        url: str = "guest:guest@localhost:5672"
     ):
         self.url = url
         self.connection = None
