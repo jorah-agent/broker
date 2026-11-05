@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jorah-broker"
+version = "0.1.0"
+description = "Shared RabbitMQ client for Jorah services"
+requires-python = ">=3.12"
+dependencies = [
+    "aio-pika>=10.2.2",
+    "loguru>=0.7.3",
+    "python-dotenv>=1.2.4",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["jorah_broker*"]
+
